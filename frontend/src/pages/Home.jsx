@@ -17,7 +17,7 @@ function Home(){ //dynamic list of movies
         setSearchQuery("")
     };
 
-    return( //form for searching
+    return( //form for searching. Will do via API.
         <div className="home">
             <form onSubmit={hanleSeach} className="search-form">
                 <input 
