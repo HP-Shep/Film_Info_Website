@@ -1,5 +1,6 @@
 import MovieCard from "../components/MovieCard" //../ to go back one directory
 import { useState } from "react";
+import "../css/Home.css"
 
 function Home(){ //dynamic list of movies
     const [searchQuery, setSearchQuery] = useState(""); //for state. setSearchQuery is function to update state. Component will rerender when change.

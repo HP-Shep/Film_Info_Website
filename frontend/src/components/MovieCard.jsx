@@ -1,3 +1,4 @@
+import "../css/MovieCard.css"
 
 function MovieCard({movie}) { //assume movie is an object containing info about the film
     function onFavoriteClick(){
