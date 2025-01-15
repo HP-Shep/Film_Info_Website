@@ -1,14 +1,38 @@
 import MovieCard from "../components/MovieCard" //../ to go back one directory
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { searchMovies, getPopularMovies } from "../services/api";
 import "../css/Home.css"
 
 function Home(){ //dynamic list of movies
+    console.log("Test output");
     const [searchQuery, setSearchQuery] = useState(""); //for state. setSearchQuery is function to update state. Component will rerender when change.
-    const movies=[
-        {id:1, title:"John Wick", release_date: "2020"},
-        {id:2, title:"Terminator", release_date: "1999"},
-        {id:3, title:"The Matrix", release_date: "1998"},
-    ];
+    //const movies= getPopularMovies() //called every time something in component changes.
+    //UseEffect - allows you to add side effects to your functions/components and define when they should run
+    //storing films in state, so persists
+    const [movies, setMovies]= useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);  
+
+    //You write useEffect as a function and put inside a function to run when the array changes. Dependacy array
+    //useEffect(() => {}, []) //so would run once at start currently as array not changing. If put state in array then could updates on state change.
+    useEffect(() => { //run once, commen for API call
+        const loadPopularMovies = async () => {
+            try{
+                const popularMovies = await getPopularMovies()
+                setMovies(popularMovies)
+                console.log(popularMovies)
+            }catch(err){
+                console.log(err) //display error
+                setError("Failed to load movies...")
+            }
+            finally{
+                setLoading=(false) //error or not, no longer loading
+            }
+        }
+        //call function
+        loadPopularMovies()
+    }, [])
+    //more state, one for 'loading state', other for 'potential error'
 
     //defining a javascript arrow function. Could also be a normal function
     const hanleSeach=(e) => {
