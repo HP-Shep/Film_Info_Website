@@ -1,6 +1,17 @@
 import "../css/MovieCard.css"
 
 function MovieCard({movie}) { //assume movie is an object containing info about the film
+    const dateEnd=(num) => {
+        if(num >3 && num <21) return "th";
+        switch(num%10){
+            case 1: return "st";
+            case 2: return "nd";
+            case 3: return "rd";
+            default: return "th";
+        }
+    };
+    let relase=new Date(movie.release_date);
+    const relaseFormated=relase.getDate()+dateEnd(relase.getDate())+" "+new Intl.DateTimeFormat("en-GB",{month:"long"}).format(relase)+" "+relase.getFullYear()
     function onFavoriteClick(){
         alert("clicked")
     }
@@ -8,7 +19,7 @@ function MovieCard({movie}) { //assume movie is an object containing info about 
         //{} for variable
         <div className="movie-card"> 
             <div className="movie-poster">
-                <img src={movie.url} alt={movie.title}/> 
+                <img src={`http://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title}/> 
                 <div className="movie-overlay">
                     <button className="favorite-btn" onClick={onFavoriteClick}>
                     ♥
@@ -17,7 +28,7 @@ function MovieCard({movie}) { //assume movie is an object containing info about 
             </div>
             <div className="movie-info">
                 <h3>{movie.title}</h3>
-                <p>{movie.release_date}</p>
+                <p>{relaseFormated}</p>
             </div>
         </div>
     )

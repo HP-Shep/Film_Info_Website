@@ -15,18 +15,17 @@ function Home(){ //dynamic list of movies
 
     //You write useEffect as a function and put inside a function to run when the array changes. Dependacy array
     //useEffect(() => {}, []) //so would run once at start currently as array not changing. If put state in array then could updates on state change.
-    useEffect(() => { //run once, commen for API call
+    useEffect(() => { //run once, common for API call
         const loadPopularMovies = async () => {
             try{
                 const popularMovies = await getPopularMovies()
                 setMovies(popularMovies)
-                console.log(popularMovies)
             }catch(err){
                 console.log(err) //display error
                 setError("Failed to load movies...")
             }
             finally{
-                setLoading=(false) //error or not, no longer loading
+                setLoading(false) //error or not, no longer loading
             }
         }
         //call function
