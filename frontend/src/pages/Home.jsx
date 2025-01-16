@@ -34,11 +34,24 @@ function Home(){ //dynamic list of movies
     //more state, one for 'loading state', other for 'potential error'
 
     //defining a javascript arrow function. Could also be a normal function
-    const hanleSeach=(e) => {
+    const hanleSeach= async (e) => {
         //submit by default refreshs page
         e.preventDefault()
-        alert(searchQuery)
-        setSearchQuery("")
+        //prevent searching empty string
+        if(!searchQuery.trim()) return //trim removes leading and trailing whitespace, if false, non removed want to return.
+        if(loading) return //stops search if already loading something else.
+
+        setLoading(true) //as doing more loading. 
+        try{
+            const searchResults= await searchMovies(searchQuery)
+            setMovies(searchResults)
+            setError(null) //clear any errors now.
+        }catch(err){
+            console.log(err)
+            setError("Failed to search movies...")
+        }finally{
+            setLoading(false) //whatever happened no longer loading
+        }
     };
 
     return( //form for searching. Will do via API.
