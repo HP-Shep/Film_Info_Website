@@ -53,11 +53,18 @@ function Home(){ //dynamic list of movies
                 />
                 <button type="submit" className="search-button">Search</button>
             </form> 
-            <div className="movies-grid"> 
-                {movies.map(movie => ( //.map iterates over each value in array and passes to function MovieCard, which returns a jsx component to display
-                    <MovieCard movie={movie} key={movie.id} /> //key, so can update each idividual component, as multiple of them each has state. 
-                ))}
-            </div>
+
+            {error && <div className="error-message">{error}</div>} {//conditional render but only show if true
+            }   
+            {loading ? ( // conditional rendering.
+                <div className="loading">Loading...</div>
+            ) : (
+                <div className="movies-grid"> 
+                    {movies.map(movie => ( //.map iterates over each value in array and passes to function MovieCard, which returns a jsx component to display
+                        <MovieCard movie={movie} key={movie.id} /> //key, so can update each idividual component, as multiple of them each has state. 
+                    ))}
+                </div> 
+            )}
         </div>
     );
 }

@@ -10,7 +10,7 @@ function MovieCard({movie}) { //assume movie is an object containing info about 
             default: return "th";
         }
     };
-    let relase=new Date(movie.release_date);
+    let relase=new Date(movie.release_date); //if no date with movie, could cause error in current state.
     const relaseFormated=relase.getDate()+dateEnd(relase.getDate())+" "+new Intl.DateTimeFormat("en-GB",{month:"long"}).format(relase)+" "+relase.getFullYear()
     function onFavoriteClick(){
         alert("clicked")
