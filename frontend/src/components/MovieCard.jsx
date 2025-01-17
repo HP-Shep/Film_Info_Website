@@ -10,8 +10,22 @@ function MovieCard({movie}) { //assume movie is an object containing info about 
             default: return "th";
         }
     };
-    let relase=new Date(movie.release_date); //if no date with movie, could cause error in current state.
-    const relaseFormated=relase.getDate()+dateEnd(relase.getDate())+" "+new Intl.DateTimeFormat("en-GB",{month:"long"}).format(relase)+" "+relase.getFullYear()
+    var relaseFormated=""
+    let relase=new Date(movie.release_date); //if no date with movie, could cause error
+    if(relase.toString()!="Invalid Date"){ //check is valid, otherwise display nothing.
+        relaseFormated=relase.getDate()+dateEnd(relase.getDate())+" "+new Intl.DateTimeFormat("en-GB",{month:"long"}).format(relase)+" "+relase.getFullYear()
+    }
+    // if(typeof(movie.release_date)!=undefined || movie.release_date!=""){
+    //     console.log(movie.title+" "+String(movie.release_date))
+    //     let relase=new Date(movie.release_date); //if no date with movie, could cause error in current state.
+    //     try{
+    //         relaseFormated=relase.getDate()+dateEnd(relase.getDate())+" "+new Intl.DateTimeFormat("en-GB",{month:"long"}).format(relase)+" "+relase.getFullYear()
+    //     }catch(err){
+    //         console.log("Error: "+movie.title+"-"+err)
+    //         console.log("Type: "+typeof(movie.release_date))
+    //         console.log("That string: "+movie.release_date)
+    //     }
+    // }
     function onFavoriteClick(){
         alert("clicked")
     }

@@ -4,7 +4,6 @@ import { searchMovies, getPopularMovies } from "../services/api";
 import "../css/Home.css"
 
 function Home(){ //dynamic list of movies
-    console.log("Test output");
     const [searchQuery, setSearchQuery] = useState(""); //for state. setSearchQuery is function to update state. Component will rerender when change.
     //const movies= getPopularMovies() //called every time something in component changes.
     //UseEffect - allows you to add side effects to your functions/components and define when they should run
