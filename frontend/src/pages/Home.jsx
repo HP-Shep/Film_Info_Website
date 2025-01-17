@@ -10,25 +10,28 @@ function Home(){ //dynamic list of movies
     //storing films in state, so persists
     const [movies, setMovies]= useState([]);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);  
+    const [loading, setLoading] = useState(false);  
 
     //You write useEffect as a function and put inside a function to run when the array changes. Dependacy array
     //useEffect(() => {}, []) //so would run once at start currently as array not changing. If put state in array then could updates on state change.
-    useEffect(() => { //run once, common for API call
-        const loadPopularMovies = async () => {
-            try{
-                const popularMovies = await getPopularMovies()
-                setMovies(popularMovies)
-            }catch(err){
-                console.log(err) //display error
-                setError("Failed to load movies...")
-            }
-            finally{
-                setLoading(false) //error or not, no longer loading
-            }
+    const loadPopularMovies = async () => {
+        if(loading) return //stops search if already loading something else.
+
+        setLoading(true) //as doing more loading. 
+        try{
+            const popularMovies = await getPopularMovies()
+            setMovies(popularMovies)
+        }catch(err){
+            console.log(err) //display error
+            setError("Failed to load movies...")
         }
+        finally{
+            setLoading(false) //error or not, no longer loading
+        }
+    }
+    useEffect(() => { //run once, common for API call
         //call function
-        loadPopularMovies()
+        loadPopularMovies();
     }, [])
     //more state, one for 'loading state', other for 'potential error'
 
@@ -64,6 +67,10 @@ function Home(){ //dynamic list of movies
                 onChange={e => setSearchQuery(e.target.value)} //sets e to what was entered in box
                 />
                 <button type="submit" className="search-button">Search</button>
+                <button type="reset" onClick={() =>{
+                    loadPopularMovies();
+                    setSearchQuery("");
+                }}>X</button>
             </form> 
 
             {error && <div className="error-message">{error}</div>} {//conditional render but only show if true
