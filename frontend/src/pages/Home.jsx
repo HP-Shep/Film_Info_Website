@@ -10,26 +10,26 @@ function Home(){ //dynamic list of movies
     //storing films in state, so persists
     const [movies, setMovies]= useState([]);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);  
+    const [loading, setLoading] = useState(true);  
+    const [popMovies, setPopMovies] = useState([]); //so can clear search but without more API calls.
 
     //You write useEffect as a function and put inside a function to run when the array changes. Dependacy array
     //useEffect(() => {}, []) //so would run once at start currently as array not changing. If put state in array then could updates on state change.
-    const loadPopularMovies = async () => {
-        if(loading) return //stops search if already loading something else.
-
-        setLoading(true) //as doing more loading. 
-        try{
-            const popularMovies = await getPopularMovies()
-            setMovies(popularMovies)
-        }catch(err){
-            console.log(err) //display error
-            setError("Failed to load movies...")
-        }
-        finally{
-            setLoading(false) //error or not, no longer loading
-        }
-    }
     useEffect(() => { //run once, common for API call
+        const loadPopularMovies = async () => {
+            try{
+                const popularMovies = await getPopularMovies()
+                setMovies(popularMovies)
+                setPopMovies(popularMovies)
+            }catch(err){
+                console.log(err) //display error
+                setError("Failed to load movies...")
+            }
+            finally{
+                setLoading(false) //error or not, no longer loading
+            }
+        }
+
         //call function
         loadPopularMovies();
     }, [])
@@ -68,7 +68,7 @@ function Home(){ //dynamic list of movies
                 />
                 <button type="submit" className="search-button">Search</button>
                 <button type="reset" onClick={() =>{
-                    loadPopularMovies();
+                    setMovies(popMovies);
                     setSearchQuery("");
                 }}>X</button>
             </form> 
