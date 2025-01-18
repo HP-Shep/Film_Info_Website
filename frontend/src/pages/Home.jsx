@@ -2,6 +2,10 @@ import MovieCard from "../components/MovieCard" //../ to go back one directory
 import { useState, useEffect } from "react";
 import { searchMovies, getPopularMovies } from "../services/api";
 import "../css/Home.css"
+import '@fortawesome/fontawesome-free/css/all.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
+
 
 function Home(){ //dynamic list of movies
     const [searchQuery, setSearchQuery] = useState(""); //for state. setSearchQuery is function to update state. Component will rerender when change.
@@ -36,7 +40,7 @@ function Home(){ //dynamic list of movies
     //more state, one for 'loading state', other for 'potential error'
 
     //defining a javascript arrow function. Could also be a normal function
-    const hanleSeach= async (e) => {
+    const handelSeach= async (e) => {
         //submit by default refreshs page
         e.preventDefault()
         //prevent searching empty string
@@ -58,19 +62,21 @@ function Home(){ //dynamic list of movies
 
     return( //form for searching. Will do via API.
         <div className="home">
-            <form onSubmit={hanleSeach} className="search-form">
-                <input 
-                type="text" 
-                placeholder="Seach for movies..." 
-                className="search-input"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)} //sets e to what was entered in box
-                />
+            <form onSubmit={handelSeach} className="search-form">
+                <div className="search-input-area">
+                    <input 
+                    type="text" 
+                    placeholder="Seach for movies..." 
+                    value={searchQuery}
+                    className="search-input"
+                    onChange={e => setSearchQuery(e.target.value)} //sets e to what was entered in box
+                    />
+                    <button type="reset" className="clear-button" onClick={() =>{
+                        setMovies(popMovies);
+                        setSearchQuery("");
+                    }}><FontAwesomeIcon icon={faCircleXmark} /></button>
+                </div>
                 <button type="submit" className="search-button">Search</button>
-                <button type="reset" onClick={() =>{
-                    setMovies(popMovies);
-                    setSearchQuery("");
-                }}>X</button>
             </form> 
 
             {error && <div className="error-message">{error}</div>} {//conditional render but only show if true
