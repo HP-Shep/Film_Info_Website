@@ -1,6 +1,10 @@
 import "../css/MovieCard.css"
+import { useMovieContext } from "../contexts/MovieContext";
 
 function MovieCard({movie}) { //assume movie is an object containing info about the film
+    //values, anything that is in values of provider
+    const {isFavorite, addToFavorites, removeFromFavorites} = useMovieContext() //links in context, then can use provider to mange state... Can use as App wrapped in context
+    const favorite = isFavorite(movie.id) //can tell if we're favorite
     const dateEnd=(num) => {
         if(num >3 && num <21) return "th";
         switch(num%10){
@@ -15,8 +19,10 @@ function MovieCard({movie}) { //assume movie is an object containing info about 
     if(relase.toString()!="Invalid Date"){ //check is valid, otherwise display nothing.
         relaseFormated=relase.getDate()+dateEnd(relase.getDate())+" "+new Intl.DateTimeFormat("en-GB",{month:"long"}).format(relase)+" "+relase.getFullYear()
     }
-    function onFavoriteClick(){
-        alert("clicked")
+    function onFavoriteClick(e){
+        e.preventDefault()
+        if(favorite) removeFromFavorites(movie.id)
+        else addToFavorites(movie)
     }
     return ( //className rather than class, to avoid conflicts as class is a reserved key word in JS.
         //{} for variable
@@ -24,7 +30,7 @@ function MovieCard({movie}) { //assume movie is an object containing info about 
             <div className="movie-poster">
                 <img src={`http://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title}/> 
                 <div className="movie-overlay">
-                    <button className="favorite-btn" onClick={onFavoriteClick}>
+                    <button className={`favorite-btn ${favorite ? "active": ""}`} onClick={onFavoriteClick}>
                     ♥
                     </button>
                 </div>

@@ -4,11 +4,12 @@ import Favorites from './pages/Favorites';
 import Home from "./pages/Home"
 import { Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';//doing nav bar on app, as want it to display for all webpages :-)
+import { MovieProvider } from './contexts/MovieContext'; //isn't on default export hence like so...
 
 function App() { //components always start with a capital letter
   return (
     <>
-      <div>
+      <MovieProvider>
         <NavBar />
         <main className="main-content">
           <Routes>
@@ -16,7 +17,7 @@ function App() { //components always start with a capital letter
             <Route path='/favorites' element={<Favorites />}/>
           </Routes>
         </main>
-      </div>
+      </MovieProvider>
     </>
   );
 }
