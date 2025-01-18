@@ -91,12 +91,13 @@
   padding: 0.2rem;
   z-index: 1;
   border-radius: 100%;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
 }
 
 .clear-button:hover{
   color: white;
   background-color: #666;
+  transform: scale(1.5) translate(0%,-35%);
 }
 
 @media (max-width: 639px) {
